@@ -31,11 +31,12 @@ class Component{
             options: Object.assign(this._defaultComponentOptions(), op),
             onQueryLoad: function (){
                 this.lp = component.LP;
-                if (this.window){
-                    this.setTitle(this.lp.title);
-                }else{
-                    document.title = this.lp.title;
-                }
+                this.options.title = this.lp.title;
+                // if (this.window){
+                //     this.setTitle(this.lp.title);
+                // }else{
+                //     document.title = this.lp.title;
+                // }
             },
             loadApplication: function(callback){
                 this.vueApp = app;
