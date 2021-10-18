@@ -1,0 +1,19 @@
+{
+  "name": "@o2oa/web-component",
+  "version": "1.0.6",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "ssh://git@git.o2oa.net:2020/o2oa/o2-web-component.git"
+  },
+  "author": "Tommy",
+  "license": "MIT"
+}
