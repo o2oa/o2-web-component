@@ -55,10 +55,12 @@ class Component{
         }
     }
     render(){
-        Promise.resolve(((layout.session && layout.session.user) || layout.sessionPromise)).then(()=>{
-            layout.apps = [];
-            layout.openApplication(null, this.name);
-        });
+        if (layout.inBrowser){
+            Promise.resolve(((layout.session && layout.session.user) || layout.sessionPromise)).then(()=>{
+                layout.apps = [];
+                layout.openApplication(null, this.name);
+            });
+        }
     }
 }
 
