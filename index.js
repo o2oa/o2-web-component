@@ -51,7 +51,7 @@ class Component{
         }
     }
     render(){
-        if (layout.inBrowser){
+        if (layout.inBrowser && window.location.href.indexOf('x_desktop')===-1){
             Promise.resolve(((layout.session && layout.session.user) || layout.sessionPromise)).then(()=>{
                 layout.apps = [];
                 layout.openApplication(null, this.name);
