@@ -32,15 +32,11 @@ class Component{
             onQueryLoad: function (){
                 this.lp = component.LP;
                 this.options.title = this.lp.title;
-                // if (this.window){
-                //     this.setTitle(this.lp.title);
-                // }else{
-                //     document.title = this.lp.title;
-                // }
             },
             loadApplication: function(callback){
-                this.vueApp = app;
                 app.mounted = callback;
+                app.o2component = this;
+                this.vueApp = app;
                 createApp(app).mount(this.content);
             }
         });
