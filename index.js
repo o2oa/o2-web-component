@@ -1,4 +1,4 @@
-import { createApp } from 'vue';
+import { createApp, provide } from 'vue';
 
 const o2 = window.o2;
 const layout = window.layout;
@@ -35,9 +35,14 @@ class Component{
             },
             loadApplication: function(callback){
                 app.mounted = callback;
-                app.o2component = this;
-                this.vueApp = app;
-                createApp(app).mount(this.content);
+                const vueApp = createApp(app);
+                this.vueApp = vueApp;
+                vueApp.provide('o2component', this);
+                vueApp.provide('lp', this.lp);
+                this.addEvent('queryClose', ()=>{
+                    vueApp.unmount();
+                });
+                vueApp.mount(this.content);
             }
         });
     }
