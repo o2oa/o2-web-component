@@ -32,13 +32,14 @@ class Component{
                 this.options.title = this.lp.title;
             },
             loadApplication: function(){
-                this.vueApp = app;
-                app.provide('o2component', this);
-                app.provide('lp', this.lp);
+                const vueApp = app();
+                this.vueApp = vueApp;
+                vueApp.provide('o2component', this);
+                vueApp.provide('lp', this.lp);
                 this.addEvent('queryClose', ()=>{
-                    app.unmount();
+                    vueApp.unmount();
                 });
-                app.mount(this.content);
+                vueApp.mount(this.content);
             }
         });
     }
