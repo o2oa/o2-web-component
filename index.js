@@ -1,5 +1,3 @@
-import { createApp, provide } from 'vue';
-
 const o2 = window.o2;
 const layout = window.layout;
 
@@ -33,16 +31,14 @@ class Component{
                 this.lp = component.LP;
                 this.options.title = this.lp.title;
             },
-            loadApplication: function(callback){
-                app.mounted = callback;
-                const vueApp = createApp(app);
-                this.vueApp = vueApp;
-                vueApp.provide('o2component', this);
-                vueApp.provide('lp', this.lp);
+            loadApplication: function(){
+                this.vueApp = app;
+                app.provide('o2component', this);
+                app.provide('lp', this.lp);
                 this.addEvent('queryClose', ()=>{
-                    vueApp.unmount();
+                    app.unmount();
                 });
-                vueApp.mount(this.content);
+                app.mount(this.content);
             }
         });
     }
