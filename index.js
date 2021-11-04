@@ -1,11 +1,12 @@
 const o2 = window.o2;
 const layout = window.layout;
+let component, lp;
 
 class Component{
-    constructor(name, app, options){
+    constructor(name, provider, options){
         this.name = name;
         this.options = options;
-        this.vueApp = app;
+        this.provider = provider;
         this._initComponent();
         this._defineComponent();
     }
@@ -21,25 +22,25 @@ class Component{
     }
     _defineComponent(){
         const op = (this.options) || {};
-        const app = this.vueApp;
-        const component = this.component;
-        component.Main = new window.Class({
+        const provider = this.provider;
+        const o2component = this.component;
+        o2component.Main = new window.Class({
             Extends: o2.xApplication.Common.Main,
             Implements: [window.Options, window.Events],
             options: Object.assign(this._defaultComponentOptions(), op),
             onQueryLoad: function (){
-                this.lp = component.LP;
+                this.lp = o2component.LP;
                 this.options.title = this.lp.title;
+                component = this;
+                lp = this.lp;
             },
-            loadApplication: function(){
-                const vueApp = app();
-                this.vueApp = vueApp;
-                vueApp.provide('o2component', this);
-                vueApp.provide('lp', this.lp);
-                this.addEvent('queryClose', ()=>{
-                    vueApp.unmount();
+            loadApplication: function(callback){
+                const app = provider(this.content, ()=>{
+                    if (callback) callback();
                 });
-                vueApp.mount(this.content);
+                this.addEvent('queryClose', ()=>{
+                    if (app && app.unmount) app.unmount();
+                });
             }
         });
     }
@@ -62,12 +63,12 @@ class Component{
     }
 }
 
-const loadComponent = function(name, app, options){
+const loadComponent = function(name, provider, options){
     return new Promise((resolve)=>{
         layout.addReady(()=>{
-            const c = new Component(name, app, (options || {}));
+            const c = new Component(name, provider, (options || {}));
             resolve(c);
         });
     });
 }
-export {o2, layout, loadComponent};
+export {o2, layout, component, lp, loadComponent};
